@@ -18,8 +18,9 @@ function UserLogin() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('/user-login', form).then((res) => {
-            console.log(res);
-            navigate('/app/')
+            alert("login successful")
+            localStorage.setItem("userId", res.data.id)
+            navigate('/app/home')
         }).catch((err) => {
             setError(err.response.data)
         })

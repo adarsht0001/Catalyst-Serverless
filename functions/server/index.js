@@ -163,4 +163,30 @@ expressApp.put("/add-ticket", async (req, res) => {
       return res.status(401).json(err.message);
     });
 });
+
+expressApp.post("/user-login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const userApp = catalyst.initialize(req, { scope: "admin" });
+    let query = `SELECT * FROM users WHERE email = '${email}'`;
+    const users = await userApp.zcql().executeZCQLQuery(query);
+    if (users) {
+      const user = users[0].users;
+      const valid = await bcrypt.compare(password, user.password);
+      if (valid) {
+        return res
+          .status(200)
+          .json({ msg: "login successful", id: user.ROWID });
+      } else {
+        res.status(401).json("Incorrect password");
+      }
+    }
+    res.status(401).json("user doesn't Exist");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+expressApp.get("/assigned-ticket", (req, res) => {});
+
 module.exports = expressApp;
