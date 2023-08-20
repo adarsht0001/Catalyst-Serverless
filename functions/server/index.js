@@ -183,7 +183,7 @@ expressApp.post("/user-login", async (req, res) => {
     res.status(401).json("user doesn't Exist");
   } catch (error) {
     console.log(error);
-    return res.status(401).json(err.message);
+    return res.status(401).json(error.message);
   }
 });
 
@@ -202,7 +202,7 @@ expressApp.get("/assigned-ticket/:id", async (req, res) => {
     return res.status(200).json({ msg: "no tickets assigned", status: false });
   } catch (error) {
     console.log(error);
-    return res.status(401).json(err.message);
+    return res.status(401).json(error.message);
   }
 });
 
@@ -218,7 +218,7 @@ expressApp.post("/reset-password", async (req, res) => {
     console.log(users);
   } catch (error) {
     console.log(error);
-    return res.status(401).json(err.message);
+    return res.status(401).json(error.message);
   }
 });
 
