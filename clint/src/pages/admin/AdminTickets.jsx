@@ -51,6 +51,7 @@ function AdminTicket() {
                 <thead>
                     <tr>
                         <th>Ticket Name</th>
+                        <th>Ticket ID</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -58,6 +59,7 @@ function AdminTicket() {
                     return (
                         <tr key={e.Tickets?.ROWID}>
                             <td>{e.Tickets.name}</td>
+                            <td>{e.Tickets?.ROWID}</td>
                             <td>
                                 <button type="button" style={{ margin: '5px' }} onClick={() => handleDelete(e?.Tickets?.ROWID)}>Delete</button>
                             </td>

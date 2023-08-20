@@ -55,7 +55,13 @@ function AdminHome() {
     const assignTicket = (e) => {
         e.preventDefault();
         const data = { ticketId: currentTicket, userId: current }
-        axios.put('/add-ticket', data)
+        axios.put('/add-ticket', data).then((res) => {
+            alert(res?.data?.msg)
+            setRefresh(!refresh)
+            setTicketModal(false)
+        }).catch((err) => {
+            console.log(err);
+        })
     }
     return (
         <div className='center'>
@@ -79,10 +85,15 @@ function AdminHome() {
                                     <button type="button" style={{ margin: '5px' }} onClick={() => handleDelete(e?.users?.ROWID)}>Delete</button>
                                 </td>
                                 <td>
-                                    <button type="button" style={{ margin: '5px' }} onClick={() => {
-                                        setCurrent(e?.users?.ROWID)
-                                        setTicketModal(!ticketmodal)
-                                    }}>Select</button>
+                                    {
+                                        e?.users?.Tickets ? e?.users?.Tickets : (
+                                            <button type="button" style={{ margin: '5px' }} onClick={() => {
+                                                setCurrent(e?.users?.ROWID)
+                                                setTicketModal(!ticketmodal)
+                                            }}>Select</button>
+                                        )
+                                    }
+
                                 </td>
                             </tr>
                         )
