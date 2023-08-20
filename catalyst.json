@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "targets": [
+      "server"
+    ],
+    "ignore": [],
+    "source": "functions"
+  },
+  "client": {
+    "source": "clint",
+    "plugin": "zcatalyst-cli-plugin-react"
+  }
+}

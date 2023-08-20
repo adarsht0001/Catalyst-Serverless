@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "13730000000004065",
+      "name": "machine-task",
+      "domain": {
+        "id": "10064114112",
+        "name": "machine-task-824326167.development"
+      },
+      "timezone": "America/Los_Angeles",
+      "env": [
+        {
+          "idx": 1,
+          "id": "824326167",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}
