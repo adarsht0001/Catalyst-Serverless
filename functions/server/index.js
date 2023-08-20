@@ -141,7 +141,6 @@ expressApp.put("/add-ticket", async (req, res) => {
   const ticket = await userApp.datastore().table("Tickets").getRow(ticketId);
 
   ticket.status = true;
-  console.log(ticket);
   user.Tickets = ticketId;
   let mail = userApp.email();
   let config = {
@@ -184,9 +183,43 @@ expressApp.post("/user-login", async (req, res) => {
     res.status(401).json("user doesn't Exist");
   } catch (error) {
     console.log(error);
+    return res.status(401).json(err.message);
   }
 });
 
-expressApp.get("/assigned-ticket", (req, res) => {});
+expressApp.get("/assigned-ticket/:id", async (req, res) => {
+  const userRowID = req.params.id;
+  const userApp = catalyst.initialize(req, { scope: "admin" });
+  try {
+    const user = await userApp.datastore().table("users").getRow(userRowID);
+    if (user.Tickets) {
+      const ticket = await userApp
+        .datastore()
+        .table("Tickets")
+        .getRow(user.Tickets);
+      return res.status(200).json({ ticket: ticket, status: true });
+    }
+    return res.status(200).json({ msg: "no tickets assigned", status: false });
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json(err.message);
+  }
+});
+
+expressApp.post("/reset-password", async (req, res) => {
+  const { userId, password } = req.body;
+  const userApp = catalyst.initialize(req, { scope: "admin" });
+
+  const hash = await bcrypt.hash(password, 10);
+  try {
+    let query = `UPDATE users SET password='${hash}' WHERE ROWID = '${userId}'`;
+    const users = await userApp.zcql().executeZCQLQuery(query);
+    res.status(200).json("password reset");
+    console.log(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json(err.message);
+  }
+});
 
 module.exports = expressApp;
